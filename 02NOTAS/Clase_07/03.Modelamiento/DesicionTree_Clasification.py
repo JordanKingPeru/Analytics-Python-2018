@@ -9,12 +9,15 @@ import pandas as pd
 # 1. DATA PREPARATION (ON MEMORY)
 #=============================================
 # Importando la Data de prueba
-ds=pd.read_csv("D:/BDA_VIII/Clase_07/01.TratamientoDatos" +
-                "/SegmentoPaisesBajos_PB/ds1_PB.csv")
+ds=pd.read_csv("SegmentoPaisesBajos_PB/ds1_PB.csv")
 ds=ds.drop(["Unnamed: 0"], axis=1)
 ds.info()
 
 ds=ds.drop(["Geography"], axis=1) # Eliminamos la variable segmentadora
+ds=ds.drop(["RowNumber"], axis=1)
+ds=ds.drop(["CustomerId"], axis=1)
+ds=ds.drop(["Surname"], axis=1)
+ds=ds.drop(["Geography"], axis=1)
 
 #Separacion de variables predictivas del target
 X=ds.iloc[:,:-1].values
@@ -61,7 +64,7 @@ for i in range(0,len(importance)) :
 y_pred=classifier.predict(X_test)
 from sklearn.metrics import confusion_matrix, accuracy_score,roc_auc_score
 cm=confusion_matrix(y_test,y_pred) # lo observado en test VS lo predicho con X_test
-Exito=accuracy_score(y_test,y_pred) #(1378+154)/1873  :0.8179391350774159
+Exito=accuracy_score(y_test,y_pred) #(1378+154)/1873  :0.7960725075528701
 Fracaso=1-Exito # El modelo asierta en el 81% de los casos
 Sensibilidad=154/(154+167) # 0.4797507788161994 solo le esto acertando al 47% de los que me interesa
 Epecificidad=1378/(1378+174)# 0.8878865979381443 estamos clasificando al 88% sin el valor de interes
@@ -125,7 +128,7 @@ Fracaso=1-Exito # El modelo asierta en el 87% de los casos
 Sesibilidad=114/(114+29) # de 47%  lo llevo a 79% de aciertos a los que me interesa
 Epecificidad=1516/(1516+214)# 88% lo llevamis a 87% de aciertos sin el valor de interes
 ROC=roc_auc_score(y_test,y_pred) # de 68% a 66% : Cercano a 1 es mucho mejor
-
+Gini=2*ROC-1
     # C. Visualizando el arbol online: http://www.webgraphviz.com
 from sklearn import tree
 tree.export_graphviz(classifier, 
@@ -133,9 +136,9 @@ tree.export_graphviz(classifier,
                      out_file="D:/Cursos/Big Data & Analytics/Analytics-Python-2018/tree_PB.dot",
                      filled=True)
 
+help(confusion_matrix)
     
     
-    
-    
+
 
 

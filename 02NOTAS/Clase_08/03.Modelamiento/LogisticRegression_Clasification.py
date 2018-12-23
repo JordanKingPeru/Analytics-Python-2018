@@ -9,12 +9,14 @@ import pandas as pd
 # 1. DATA PREPARATION (ON MEMORY)
 #=============================================
 # Importando la Data de prueba
-ds=pd.read_csv("D:/BDA_VIII/Clase_07/01.TratamientoDatos" +
-                "/SegmentoPaisesBajos_PB/ds1_PB.csv")
+ds=pd.read_csv("SegmentoPaisesBajos_PB/ds1_PB.csv")
 ds=ds.drop(["Unnamed: 0"], axis=1)
 ds.info()
 
 ds=ds.drop(["Geography"], axis=1) # Eliminamos la variable segmentadora
+ds=ds.drop(["RowNumber"], axis=1)
+ds=ds.drop(["CustomerId"], axis=1)
+ds=ds.drop(["Surname"], axis=1)
 
 #Separacion de variables predictivas del target
 X=ds.iloc[:,:-1].values
@@ -76,7 +78,7 @@ Fracaso=1-Exito # El modelo asierta en el 77% de los casos
 Sesibilidad=77/(77+179) # 0.30078125 solo le estoy acertando al 30% de los que me interesa
 Epecificidad=1366/(1366+251)# 0.8447742733457019 estamos clasificando al 84% sin el valor de interes
 ROC=roc_auc_score(y_test,y_pred) # 0.5594492461914912 : Cercano a 1 es mucho mejor
-    
+Gini=2*ROC-1   
     # C. Validar el Sobre ajuste (overfitting) : sobre entrenado y no preparado para nuevos casos
 #y_pred_train=classifier.predict(X_train) 
 prob_pred_train=classifier.predict_proba(X_train)
